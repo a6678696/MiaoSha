@@ -2,7 +2,6 @@ package com.ledao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ledao.entity.Goods;
-import com.ledao.entity.Order;
 
 /**
  * 商品Mapper接口
