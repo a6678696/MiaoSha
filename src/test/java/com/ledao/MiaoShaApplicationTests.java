@@ -63,7 +63,9 @@ class MiaoShaApplicationTests {
     }
 
     @Test
-    void testRedis(){
-        System.out.println(RedisUtil.getKeyTime("nameList"));
+    void testRedis() {
+        RedisUtil.setKey("a", "1");
+        RedisUtil.setKeyTime("a", 10L);
+        System.out.println(new Date() + ": " + "设置了key,过期时间为" + 10 + "秒");
     }
 }
