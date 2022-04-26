@@ -60,10 +60,13 @@ public class OrderController {
         int key = 0;
         if (orderVo.getId() == null) {
             MiaoShaGoods miaoShaGoods = miaoShaGoodsService.findById(orderVo.getMiaoShaGoodsId());
-            //当前秒杀商品的库存大于0时才放进消息队列
-            if (miaoShaGoods.getStock()>0) {
-                rabbitMQProducerService.sendInformation(RedisUtil.entityToJson(orderVo));
-                key = 1;
+            //判断是否已经过了秒杀时间,时间过了不可以秒杀
+            if (miaoShaGoods.getEndTime().getTime() - System.currentTimeMillis() >= 0) {
+                //当前秒杀商品的库存大于0时才放进消息队列
+                if (miaoShaGoods.getStock() > 0) {
+                    rabbitMQProducerService.sendInformation(RedisUtil.entityToJson(orderVo));
+                    key = 1;
+                }
             }
         } else {
             Order order = orderService.findById(orderVo.getId());
